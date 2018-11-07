@@ -1,6 +1,8 @@
 package com.example.arief.kasirsqlite;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
@@ -20,6 +22,9 @@ import com.example.arief.kasirsqlite.helper.Barang;
 import com.example.arief.kasirsqlite.helper.SqliteHelper;
 import com.example.arief.kasirsqlite.helper.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class FormBarang extends AppCompatActivity {
     LinearLayout linearLayout;
@@ -28,9 +33,10 @@ public class FormBarang extends AppCompatActivity {
     TextInputLayout kodelayoat,namaLayout,harLayout,stokLayout;
     AppCompatEditText kode,nama,harga,stok;
     SqliteHelper sqliteHelper;
+    ArrayList<String> listData;
 
-    private String[] Item = {"Bakso","Ayam Goreng","Mie Rebus","Nasi Padang",
-            "Ikan Bakar","Seblak","Gorengan","Mie Ayam"};
+//    private String[] Item = {"Bakso","Ayam Goreng","Mie Rebus","Nasi Padang",
+//            "Ikan Bakar","Seblak","Gorengan","Mie Ayam"};
     Spinner supp;
 
     @Override
@@ -39,8 +45,11 @@ public class FormBarang extends AppCompatActivity {
         setContentView(R.layout.activity_form_barang);
         toolbar=(Toolbar)findViewById(R.id.toolbar);
         supp = findViewById(R.id.spinner);
+        listData = new ArrayList<>();
+        sqliteHelper = new SqliteHelper(getBaseContext());
+        getData();
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, Item);
+                android.R.layout.simple_spinner_item, listData);
 
 // mengeset Array Adapter tersebut ke Spinner
         supp.setAdapter(adapter);
@@ -247,4 +256,35 @@ public class FormBarang extends AppCompatActivity {
 
         return valid;
     }
+    private void getData(){
+        //Mengambil Repository dengan Mode Membaca
+        SQLiteDatabase ReadData = sqliteHelper.getReadableDatabase();
+        Cursor cursor = ReadData.rawQuery("SELECT * FROM suppliers",null);
+
+        cursor.moveToFirst();//Memulai Cursor pada Posisi Awal
+
+        //Melooping Sesuai Dengan Jumlan Data (Count) pada cursor
+        for(int count=0; count < cursor.getCount(); count++){
+
+            cursor.moveToPosition(count);//Berpindah Posisi dari no index 0 hingga no index terakhir
+
+            listData.add(cursor.getString(1));//Menambil Data Dari Kolom 1 (Nama)
+            //Lalu Memasukan Semua Datanya kedalam ArrayList
+        }
+    }
+//    private void loadSpinnerData(){
+//
+//        sqliteHelper = new SqliteHelper(getApplicationContext());
+//
+//        List<String> categories = sqliteHelper.getAllCategories();
+//
+//
+//
+//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+//
+//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//        spinner.setAdapter(dataAdapter);
+//
+//    }
 }

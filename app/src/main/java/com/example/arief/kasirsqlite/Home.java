@@ -12,6 +12,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.example.arief.kasirsqlite.custom.CustomGridViewActivity;
+import com.example.arief.kasirsqlite.transaksi.HomeTransaksi;
 
 public class Home extends AppCompatActivity {
     Toolbar toolbar;
@@ -47,8 +48,8 @@ public class Home extends AppCompatActivity {
                     Intent dbarang = new Intent(Home.this,DataMaster.class);
                     startActivity(dbarang);
                 }else if (CustomGridViewActivity[i] == "Transaksi"){
-//                    Intent Itransaksi=new Intent(Home.this,Transaksi.class);
-//                    startActivity(Itransaksi);
+                    Intent Itransaksi=new Intent(Home.this,HomeTransaksi.class);
+                    startActivity(Itransaksi);
                 }else if (CustomGridViewActivity[i] == "Laporan"){
                     Toast.makeText(Home.this, "kode3", Toast.LENGTH_SHORT).show();
                 }
