@@ -37,7 +37,13 @@
         <activity android:name=".DaftarPegawai" />
         <activity android:name=".DaftarSupplier" />
         <activity android:name=".transaksi.HomeTransaksi" />
-        <activity android:name=".Penjualan"></activity>
+        <activity android:name=".transaksi.Penjualan" />
+        <activity android:name=".FromUpdatePegawai" />
+        <activity android:name=".EditBarang" />
+        <activity android:name=".EditPegawai" />
+        <activity android:name=".transaksi.Transaksi" />
+        <activity android:name=".transaksi.TBarang" />
+        <activity android:name=".EditSupplier"></activity>
     </application>
 
 </manifest>

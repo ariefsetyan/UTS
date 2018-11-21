@@ -90,12 +90,20 @@ public class SqliteHelper extends SQLiteOpenHelper {
             + NO_TELP + " TEXT"
             + " ) ";
 
+//    public static final String SQL_TABLE_TRANSAKSI = " CREATE TABLE " + TABLE_TRANSAKSI
+//            + " ( "
+//            + ID_TRANSAKSI + " INTEGER PRIMARY KEY, "
+//            + TANGGAL + " TEXT, "
+//            + JUMLAH + " INTEGER, "
+//            + ID_BARANG + " INTEGER, "
+//            + "FOREIGN KEY("+ID_BARANG_FK+") REFERENCES barangs("+ID_BARANG+")"
+//            + " ) ";
     //SQL for creating users table
     public static final String SQL_TABLE_TRANSAKSI = " CREATE TABLE " + TABLE_TRANSAKSI
             + " ( "
             + ID_TRANSAKSI + " INTEGER PRIMARY KEY, "
             + TANGGAL + " TEXT, "
-            + JUMLAH + " TEXT "
+            + JUMLAH + " INTEGER "
             + " ) ";
 
     public static final String SQL_TABLE_DETIL_TRANSAKSI = " CREATE TABLE " + TABLE_DETIL_TRANSAKSI

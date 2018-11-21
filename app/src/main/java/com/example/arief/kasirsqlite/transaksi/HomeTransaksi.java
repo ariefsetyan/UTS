@@ -1,5 +1,6 @@
 package com.example.arief.kasirsqlite.transaksi;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +27,8 @@ public class HomeTransaksi extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (isinya[i] == "Penjualan"){
+                    Intent intent = new Intent(HomeTransaksi.this,TBarang.class);
+                    startActivity(intent);
                     Toast.makeText(HomeTransaksi.this, "penjulan", Toast.LENGTH_SHORT).show();
                 }else if (isinya[i]=="Pembelian"){
                     Toast.makeText(HomeTransaksi.this, "pemebelian", Toast.LENGTH_SHORT).show();

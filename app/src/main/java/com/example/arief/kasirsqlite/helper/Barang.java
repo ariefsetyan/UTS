@@ -13,6 +13,20 @@ public class Barang {
         this.harga = harga;
         this.stok = stok;
         this.idSupplier = idSupplier;
-
+    }
+    public String getId(){
+        return id;
+    }
+    public String getnama(){
+        return namBarang;
+    }
+    public String gethaga(){
+        return harga;
+    }
+    public String getStok(){
+        return stok;
+    }
+    public String getIdSupplier(){
+        return idSupplier;
     }
 }

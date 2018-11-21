@@ -24,7 +24,7 @@ public class Add_Pegawai extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add__pegawai);
+        setContentView(R.layout.activity_add_pegawai);
         toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         sqliteHelper = new SqliteHelper(this);

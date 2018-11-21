@@ -1,10 +1,7 @@
 package com.example.arief.kasirsqlite;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,16 +14,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
-import com.example.arief.kasirsqlite.helper.Barang;
 import com.example.arief.kasirsqlite.helper.SqliteHelper;
-import com.example.arief.kasirsqlite.helper.User;
 
 import java.util.ArrayList;
-import java.util.List;
 
-
-public class FormBarang extends AppCompatActivity {
+public class EditBarang extends AppCompatActivity {
+    String Sid,Snama,Sharga,Sstok;
     LinearLayout linearLayout;
     Toolbar toolbar;
     Button simpan;
@@ -34,18 +29,21 @@ public class FormBarang extends AppCompatActivity {
     AppCompatEditText kode,nama,harga,stok;
     SqliteHelper sqliteHelper;
     ArrayList<String> listData;
-
     Spinner supp;
+    Cursor cursor;
+
+//    public static String id, nama, harga,;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_form_barang);
+        setContentView(R.layout.activity_edit_barang);
         toolbar=(Toolbar)findViewById(R.id.toolbar);
+
         supp = findViewById(R.id.spinner);
         listData = new ArrayList<>();
         sqliteHelper = new SqliteHelper(getBaseContext());
-        getData();
+//        getData();
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, listData);
 
@@ -71,6 +69,7 @@ public class FormBarang extends AppCompatActivity {
 
         simpan = findViewById(R.id.simpan);
 
+        //        toolbar
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -176,89 +175,23 @@ public class FormBarang extends AppCompatActivity {
         simpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (validate()) {
-                    String KodeBarang = kode.getText().toString();
-                    String NamaBarang = nama.getText().toString();
-                    String HargaBarang = harga.getText().toString();
-                    String StokBarang = stok.getText().toString();
-                    String IdSupper = stok.getText().toString();
-
-                    //Check in the database is there any user associated with  this email
-                    if (!sqliteHelper.isEmailExists(KodeBarang)) {
-
-                        //Email does not exist now add new user to database
-                        sqliteHelper.addbarang(new Barang(KodeBarang,NamaBarang,HargaBarang,StokBarang,IdSupper));
-                        Snackbar.make(simpan, "Data Berhasi Disimpan ", Snackbar.LENGTH_LONG).show();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-//                                finish();
-                                Intent intent = new Intent(FormBarang.this,DaftarBarang.class);
-                                startActivity(intent);
-                            }
-                        }, Snackbar.LENGTH_LONG);
-                    }else {
-
-                        //Email exists with email input provided so show error user already exist
-                        Snackbar.make(simpan, "Data already exists with same id ", Snackbar.LENGTH_LONG).show();
-                    }
-
-
-                }
+                SQLiteDatabase db = sqliteHelper.getWritableDatabase();
+                db.execSQL("update barangs set namabarang='"+
+                        nama.getText().toString() +"', harga='" +
+                        harga.getText().toString()+"', stok='"+
+                        stok.getText().toString() +"'"
+                        + " WHERE namabarang =" + "'" + DaftarBarang.id + "'");
             }
         });
+
+        getData();
     }
-    //This method is used to validate input given by user
-    public boolean validate() {
-        boolean valid = false;
 
-        //Get values from EditText fields
-        String kodeBarang = kode.getText().toString();
-        String namaBarang = nama.getText().toString();
-        String hargaBarang = harga.getText().toString();
-        String stokBarang = stok.getText().toString();
-
-        //Handling validation for Email field
-        if (kodeBarang.isEmpty()) {
-            valid = false;
-            kode.setError("Please enter valid kode!");
-        } else {
-            valid = true;
-            kode.setError(null);
-        }
-
-        //Handling validation for nama barang field
-        if (namaBarang.isEmpty()) {
-            valid = false;
-            nama.setError("Please enter valid kode!");
-        } else {
-            valid = true;
-            nama.setError(null);
-        }
-        //Handling validation for harga barang field
-        if (hargaBarang.isEmpty()) {
-            valid = false;
-            harga.setError("Please enter valid kode!");
-        } else {
-            valid = true;
-            harga.setError(null);
-        }
-        //Handling validation for stok barang field
-        if (stokBarang.isEmpty()) {
-            valid = false;
-            stok.setError("Please enter valid kode!");
-        } else {
-            valid = true;
-            stok.setError(null);
-        }
-
-        return valid;
-    }
-//    get supplier
     private void getData(){
         //Mengambil Repository dengan Mode Membaca
         SQLiteDatabase ReadData = sqliteHelper.getReadableDatabase();
-        Cursor cursor = ReadData.rawQuery("SELECT * FROM suppliers",null);
+                Toast.makeText(this, DaftarBarang.id, Toast.LENGTH_SHORT).show();
+        Cursor cursor = ReadData.rawQuery("SELECT * FROM barangs where namabarang = '"+ DaftarBarang.id+"'",null);
 
         cursor.moveToFirst();//Memulai Cursor pada Posisi Awal
 
@@ -267,9 +200,15 @@ public class FormBarang extends AppCompatActivity {
 
             cursor.moveToPosition(count);//Berpindah Posisi dari no index 0 hingga no index terakhir
 
-            listData.add(cursor.getString(1));//Menambil Data Dari Kolom 1 (Nama)
+            Sid = cursor.getString(0);
+            kode.setText(Sid);
+            nama.setText(cursor.getString(1).toString());
+            harga.setText(cursor.getString(2).toString());
+            stok.setText(cursor.getString(3).toString());
+            listData.add(cursor.getString(4).toString());//Menambil Data Dari Kolom 1 (Nama)
             //Lalu Memasukan Semua Datanya kedalam ArrayList
-            String id = cursor.getString(0);
+
+
         }
     }
 }

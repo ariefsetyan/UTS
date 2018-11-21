@@ -46,7 +46,8 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/username"
                         android:hint="Username"
-                        android:inputType="text"/>
+                        android:inputType="text"
+                        android:text="ariefsetyan@gmail.com"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -67,14 +68,10 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/password"
                         android:hint="Password"
-                        android:inputType="textPassword"/>
+                        android:inputType="textPassword"
+                        android:text="150895"/>
 
                 </android.support.design.widget.TextInputLayout>
-                <TextView
-                    android:id="@+id/buatakun"
-                    android:text="buat akun"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
 
                 <Button
                     android:layout_width="match_parent"
@@ -85,6 +82,13 @@
                     android:layout_marginRight="32dp"
                     android:id="@+id/login"
                     android:layout_below="@+id/password_TextInputlayout"/>
+
+                <TextView
+                    android:id="@+id/buatakun"
+                    android:text="buat akun"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorwhaite"/>
 
             </RelativeLayout>
 
